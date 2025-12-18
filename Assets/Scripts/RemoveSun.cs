@@ -5,26 +5,50 @@ public class RemoveSun : MonoBehaviour
 {
 
     SpriteRenderer sr;
-    void Start()
+    [SerializeField] float lifeTime = 5f;
+    ObjectPool pool;
+
+    public void SetPool(ObjectPool objectPool)
     {
-        sr = GetComponent<SpriteRenderer>();
+        pool = objectPool;
+    }
+    void OnEnable()
+    {
+        if (sr == null)
+            sr = GetComponent<SpriteRenderer>();
+
         StartCoroutine(Remove());
     }
 
-
     IEnumerator Remove()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(lifeTime);
+
         Color c = sr.color;
-        for (int i =0; i < 5; i++)
+
+        for (int i = 0; i < 5; i++) //»ç¶óÁö±âÀü¿¡ ±ôºýÀÌ±â
         {
             c.a = 0.3f;
             sr.color = c;
             yield return new WaitForSeconds(0.2f);
-            c.a = 1;
+
+            c.a = 1f;
             sr.color = c;
             yield return new WaitForSeconds(0.2f);
         }
-        Destroy(this.gameObject);
+
+        pool?.ReturnToPool(this.gameObject);
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    public void ReturnToPool()
+    {
+        StopAllCoroutines();          // ±ôºýÀÓ ÄÚ·çÆ¾ Á¤Áö
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+        pool?.ReturnToPool(gameObject);
     }
 }

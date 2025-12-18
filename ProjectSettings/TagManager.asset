@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Ground
   - Sun
+  - Enemy Move Limit
+  - Enemy
+  - Death Zone
+  - Bad Sun
+  - Boss Hand
   layers:
   - Default
   - TransparentFX
@@ -13,9 +18,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - 
-  - 
+  - Block
+  - Player
+  - Enemy
   - 
   - 
   - 
